@@ -49,9 +49,10 @@ variable "github_oauth_token" {
   sensitive   = true
 }
 
-# S3 Bucket for Artifacts
+# S3 Bucket for Artifacts - WITH FORCE DESTROY
 resource "aws_s3_bucket" "artifacts" {
-  bucket = "codepipeline-${var.project_name}-${random_id.bucket_suffix.hex}"
+  bucket        = "codepipeline-${var.project_name}-${random_id.bucket_suffix.hex}"
+  force_destroy = true  # This allows automatic deletion even when not empty
 }
 
 resource "aws_s3_bucket_ownership_controls" "artifacts" {

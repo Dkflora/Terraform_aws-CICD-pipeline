@@ -73,10 +73,11 @@ variable "log_retention_days" {
   type        = number
 }
 
-# ECR Repository
+# ECR Repository - WITH FORCE DELETE
 resource "aws_ecr_repository" "app" {
   name                 = var.project_name
   image_tag_mutability = "MUTABLE"
+  force_delete         = true  # This allows automatic deletion even with images
 
   image_scanning_configuration {
     scan_on_push = true
@@ -407,6 +408,7 @@ resource "aws_ecs_service" "main" {
     create_before_destroy = true
   }
 }
+
 # Application Auto Scaling Target - COMMENTED OUT TEMPORARILY
 # resource "aws_appautoscaling_target" "ecs_target" {
 #   max_capacity       = var.max_capacity
